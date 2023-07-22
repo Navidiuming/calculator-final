@@ -10,90 +10,125 @@
     background-color: rgb(230, 230, 230);
     display: grid;
     grid-template-columns: auto auto 320px;
-    grid-template-rows: 25px auto 420px;
+    grid-template-rows: 5% auto 420px;
     grid-template-areas: 
     "header header header"
     "standard standard history"
     "pad pad history";
 }
 
-.headBar , .closeBar , .historyBar , .historyAndMemoryBar , .standardLeftBar , .standardSection , .standardBar , .MBar{
-    display: flex;
-}
+/* header section ######################################################################*/
 
 .headBar{
+    display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: baseline;
     grid-area: header;
-    font-size: large;
+    font-size: 15px;
 }
-.closeBar{
+.calName{
+    padding-left: 7px;
+    padding-top: 2px;
+    margin-top: 0px;
+    font-size: 12px;
+}
+.windowControlerBar{
+    display: flex;
     flex-direction: row;
     justify-content: right;
-    gap: 1rem;
-    font-size: x-large;
+    align-items: stretch;
 }
 .closePageIcon:hover{
     background-color: red;
     color: white;
+    
+}
+
+.windowsControlBtn{
+    padding: 0px 15px;
 }
 .otherClosePageIcon:hover{
     background-color: rgb(207, 207, 207);
 }
+/*histoty bar section ###################################################################*/
 .historyBar{
+    display: flex;
     flex-direction: column;
     grid-area: history;
     justify-content: start;
     gap: 2em;
+    padding: 5%;
+    font-weight: bold ;
+    font-size: small;
 }
 
 .historyAndMemoryBar{
+    display: flex;
     flex-direction: row;
-    gap: 1rem;
+    gap: 2rem;
     
+}
+.historyResultBar{
+    font-size: 0.9em;
 }
 .historyName{
     border-bottom: solid orange;
 }
-.standardSection{
+
+
+/* display section ####################################################################*/
+.displaySection{
+    display: flex;
     flex-direction: column;
     justify-content: space-between;
     grid-area: standard;
 }
+.standardBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
 .standardLeftBar{
- flex-direction: row;
- gap: 2em;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;   
 }
+
 sup { vertical-align: super; font-size: 0.6em; }
-.menuBtn{
-    text-align: center;
+
+.standardItems{
+    padding: 2px 10px;
 }
-.menuBtn:hover{
+.menuStandardBtn:hover{
     background-color: rgb(208, 208, 208);
 }
 .OCHistory{
     padding-right: 1em;
 }
-.standardBar{
-    flex-direction: row;
-    justify-content: space-between;
-    font-size: x-large;
-   }
 
 .display{
     text-align: right;
-    padding: 1rem;
+    padding: 2px;
     font-size: xx-large;
+    font-weight: bold;
 }
 
-.MBar{
-    gap: 2.7em;
+.memeoryBar{
+    display: flex;
+    flex-direction: row;
+    font-size: 2.3vmin;
+}
+.memoryBtn{
+    padding: 0 2.3vw 10px 2.3vmax;
+    font-size: small;
 }
 .opacityM{
     opacity: 30%;
 }
 
-.padSection{
+/* keyboard section #######################################################################*/
+.keyboard{
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     grid-template-rows: repeat(5, 1fr);
@@ -108,6 +143,7 @@ button{
 
 .digitBtn{
     background-color: rgb(250, 250, 250);
+    font-weight: bold;
 }
 .digitBtn:hover{
     background-color: rgb(230, 230, 230);
@@ -123,7 +159,27 @@ button{
 img{
     width: 15px;
 }
+.operationBtn{
+    font-size: 30px;
+    font-weight: lighter;
+}
 
+
+@media only screen and (max-width:650PX){
+    .mainContainer{
+        width: 100vw;
+        height: 100vh;
+        background-color: rgb(230, 230, 230);
+        display: grid;
+        grid-template-columns: auto auto 45%;
+        grid-template-rows: 5% 30% 65%;
+        grid-template-areas: 
+        "header header header"
+        "standard standard history"
+        "pad pad history";
+    }
+}
+/*
 @media only screen and (max-width:650PX){
     .mainContainer{
         width: 100vw;
@@ -137,7 +193,7 @@ img{
         "standard standard history"
         "pad pad history";
     }
-    .padSection{
+    .keyboard{
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(6, 1fr);
@@ -164,7 +220,7 @@ img{
 /*
 @media only screen and (min-width:650px) and (max-width:750px){
     
-    .padSection{
+    .keyboard{
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         grid-template-rows: repeat(6, 1fr);
@@ -188,6 +244,5 @@ img{
         grid-area: 1 / 4 / 2 / 5;
     }
 }
-
-
+*/
 
