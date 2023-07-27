@@ -1,0 +1,248 @@
+*{
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+.mainContainer{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgb(230, 230, 230);
+    display: grid;
+    grid-template-columns: auto auto 320px;
+    grid-template-rows: 5% auto 420px;
+    grid-template-areas: 
+    "header header header"
+    "standard standard history"
+    "pad pad history";
+}
+
+/* header section ######################################################################*/
+
+.headBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    grid-area: header;
+    font-size: 15px;
+}
+.calName{
+    padding-left: 7px;
+    padding-top: 2px;
+    margin-top: 0px;
+    font-size: 12px;
+}
+.windowControlerBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: right;
+    align-items: stretch;
+}
+.closePageIcon:hover{
+    background-color: red;
+    color: white;
+    
+}
+
+.windowsControlBtn{
+    padding: 0px 15px;
+}
+.otherClosePageIcon:hover{
+    background-color: rgb(207, 207, 207);
+}
+/*histoty bar section ###################################################################*/
+.historyBar{
+    display: flex;
+    flex-direction: column;
+    grid-area: history;
+    justify-content: start;
+    gap: 2em;
+    padding: 5%;
+    font-weight: bold ;
+    font-size: small;
+}
+
+.historyAndMemoryBar{
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    
+}
+.historyResultBar{
+    font-size: 0.9em;
+}
+.historyName{
+    border-bottom: solid orange;
+}
+
+
+/* display section ####################################################################*/
+.displaySection{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    grid-area: standard;
+}
+.standardBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.standardLeftBar{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;   
+}
+
+sup { vertical-align: super; font-size: 0.6em; }
+
+.standardItems{
+    padding: 2px 10px;
+}
+.menuStandardBtn:hover{
+    background-color: rgb(208, 208, 208);
+}
+.OCHistory{
+    padding-right: 1em;
+}
+
+.display{
+    text-align: right;
+    padding: 2px;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.memeoryBar{
+    display: flex;
+    flex-direction: row;
+    font-size: 2.3vmin;
+}
+.memoryBtn{
+    padding: 0 2.3vw 10px 2.3vmax;
+    font-size: small;
+}
+.opacityM{
+    opacity: 30%;
+}
+
+/* keyboard section #######################################################################*/
+.keyboard{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    grid-area: pad;
+    text-align: center;
+    gap: 2px;
+}
+
+button{
+    all: unset;  
+}
+
+.digitBtn{
+    background-color: rgb(250, 250, 250);
+    font-weight: bold;
+}
+.digitBtn:hover{
+    background-color: rgb(230, 230, 230);
+}
+.mathBtn{
+    background-color: rgb(240, 240, 240);
+}
+
+.mathBtn:hover{
+    background-color: rgb(230, 230, 230);
+}
+
+img{
+    width: 15px;
+}
+.operationBtn{
+    font-size: 30px;
+    font-weight: lighter;
+}
+
+
+@media only screen and (max-width:650PX){
+    .mainContainer{
+        width: 100vw;
+        height: 100vh;
+        background-color: rgb(230, 230, 230);
+        display: grid;
+        grid-template-columns: auto auto 45%;
+        grid-template-rows: 5% 30% 65%;
+        grid-template-areas: 
+        "header header header"
+        "standard standard history"
+        "pad pad history";
+    }
+}
+/*
+@media only screen and (max-width:650PX){
+    .mainContainer{
+        width: 100vw;
+        height: 100vh;
+        background-color: rgb(230, 230, 230);
+        display: grid;
+        grid-template-columns: auto auto auto;
+        grid-template-rows: 5% 30% 65%;
+        grid-template-areas: 
+        "header header header"
+        "standard standard history"
+        "pad pad history";
+    }
+    .keyboard{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+        grid-area: pad;
+        text-align: center;
+        gap: 2px;
+    }
+    .extraBtn{
+        display: none;
+    }
+    
+    .padBtn:nth-child(6) {
+        grid-area: 1 / 2 / 2 / 3;
+    }
+    
+    .padBtn:nth-child(11) {
+        grid-area: 1 / 3 / 2 / 4;
+    }
+    
+    .padBtn:nth-child(21) {
+        grid-area: 1 / 4 / 2 / 5;
+    }
+}
+/*
+@media only screen and (min-width:650px) and (max-width:750px){
+    
+    .keyboard{
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+        grid-area: pad;
+        text-align: center;
+        gap: 2px;
+    }
+    .extraBtn{
+        display: none;
+    }
+    
+    .padBtn:nth-child(6) {
+        grid-area: 1 / 2 / 2 / 3;
+    }
+    
+    .padBtn:nth-child(11) {
+        grid-area: 1 / 3 / 2 / 4;
+    }
+    
+    .padBtn:nth-child(21) {
+        grid-area: 1 / 4 / 2 / 5;
+    }
+}
+*/
+
