@@ -2,15 +2,15 @@
     margin: 0;
     padding: 0;
     font-family: sans-serif;
+    overflow: hidden;
 }
-
 .mainContainer{
     width: 100vw;
     height: 100vh;
     background-color: rgb(230, 230, 230);
     display: grid;
     grid-template-columns: auto auto 320px;
-    grid-template-rows: 5% auto 420px;
+    grid-template-rows: 5% auto 63%;
     grid-template-areas: 
     "header header header"
     "standard standard history"
@@ -117,10 +117,10 @@ sup { vertical-align: super; font-size: 0.6em; }
 .memeoryBar{
     display: flex;
     flex-direction: row;
-    font-size: 2.3vmin;
+    justify-content: flex-start;
 }
 .memoryBtn{
-    padding: 0 2.3vw 10px 2.3vmax;
+    padding:0 2.5vw 10px 2.5vw;
     font-size: small;
 }
 .opacityM{
@@ -164,7 +164,13 @@ img{
     font-weight: lighter;
 }
 
+@media only screen and (max-width:800px){
 
+    .memoryBtn{
+        padding:0 2.8vw 10px 2.8vw;
+        font-size: small;
+    }
+}
 @media only screen and (max-width:650PX){
     .mainContainer{
         width: 100vw;
@@ -172,11 +178,16 @@ img{
         background-color: rgb(230, 230, 230);
         display: grid;
         grid-template-columns: auto auto 45%;
-        grid-template-rows: 5% 30% 65%;
+        grid-template-rows: 5% 31.66% 63.33%;
         grid-template-areas: 
         "header header header"
         "standard standard history"
         "pad pad history";
+    }
+
+    .memoryBtn{
+        padding:0 3.6vw 10px 3.6vw;
+        font-size: small;
     }
 }
 /*
