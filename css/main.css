@@ -170,6 +170,27 @@ img{
         "pad pad history";
     }
 
+
+}
+
+@media only screen and (min-width:500px) and (max-width:1024px){
+    .mainContainer{
+        width: 100vw;
+        height: 100vh;
+        background-color: rgb(230, 230, 230);
+        display: grid;
+        grid-template-columns: auto auto 30%;
+        grid-template-rows: 5% auto 63%;
+        grid-template-areas: 
+        "header header header"
+        "standard standard history"
+        "pad pad history";
+
+        
+    }
+}
+
+@media only screen and (max-width:1024px){
     .keyboard{
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -194,22 +215,6 @@ img{
         grid-area: 1 / 4 / 2 / 5;
     }
 }
-
-@media only screen and (min-width:500px) and (max-width:1024px){
-    .mainContainer{
-        width: 100vw;
-        height: 100vh;
-        background-color: rgb(230, 230, 230);
-        display: grid;
-        grid-template-columns: auto auto 30%;
-        grid-template-rows: 5% auto 63%;
-        grid-template-areas: 
-        "header header header"
-        "standard standard history"
-        "pad pad history";
-    }
-}
-
 @media only screen and (max-width:500px){
     .mainContainer{
         width: 100vw;
