@@ -1,7 +1,16 @@
+:root{
+    --bg_mainBG : rgb(230, 230, 230);
+    --bg_math_btn_BG :  rgb(240, 240, 240);
+    --digit_btn_BG : rgb(250, 250, 250);
+    --bg_hover : rgba(159, 158, 158, 0.4901960784);
+    --border_radius : 0rem;
+    --font_family : sans-serif;
+    --scale : scale(1);
+}
 *{
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
+    font-family: var(--font_family);
 }
 
 .mainContainer{
@@ -40,7 +49,8 @@
     padding: 0px 15px;
 }
 .otherClosePageIcon:hover{
-    background-color: rgb(207, 207, 207);
+    /* background-color: rgb(207, 207, 207); */
+    background-color: var(--bg_hover);
 }
 /*histoty bar section ###################################################################*/
 .historyBar{
@@ -93,7 +103,8 @@ sup { vertical-align: super; font-size: 0.6em; }
     padding: 2px 10px;
 }
 .menuStandardBtn:hover{
-    background-color: rgb(208, 208, 208);
+    background-color: var(--bg_hover);
+    border-radius: var(--border_radius);
 }
 .OCHistory{
     padding-right: 1em;
@@ -110,6 +121,7 @@ sup { vertical-align: super; font-size: 0.6em; }
 
 .memeoryBar{
     padding-bottom: 3px;
+
 }
 
 .LeftHandMemoryBar{
@@ -124,9 +136,13 @@ sup { vertical-align: super; font-size: 0.6em; }
 .memoryBtn{
     font-size: 10px;
     padding: 10px 3vw;
+    border-radius: var(--border_radius);
+
 }
 .memoryBtn:hover{
-    background-color: rgb(240 , 240, 240);
+    /* background-color: rgb(240 , 240, 240); */
+    /* background-color: var(--bg_math_btn_BG); */
+    background-color: var(--bg_hover);
 }
 
 .opacityM{
@@ -150,23 +166,36 @@ sup { vertical-align: super; font-size: 0.6em; }
 }
 
 button{
-    all: unset;  
+    all: unset;
+    
+    transition: 0.5s;
 }
 
+button:hover{
+    transform: var(--scale);
+}
 .digitBtn{
-    background-color: rgb(250, 250, 250);
+    /* background-color: rgb(250, 250, 250); */
+    background-color:var(--digit_btn_BG);
+    border-radius: var(--border_radius);
     font-weight: bold;
     font-size: 25px;
 }
 .digitBtn:hover{
-    background-color: rgb(230, 230, 230);
+    /* background-color: rgb(230, 230, 230);*/
+    /* background-color: var(--bg_hover_mainBG); */
+    background-color: var(--bg_hover);
 }
 .mathBtn{
-    background-color: rgb(240, 240, 240);
+    /* background-color: rgb(240, 240, 240); */
+    background-color: var(--bg_math_btn_BG);
+    border-radius: var(--border_radius);
 }
 
 .mathBtn:hover{
-    background-color: rgb(230, 230, 230);
+    /* background-color: rgb(230, 230, 230); */
+    /* background-color: var(--bg_hover_mainBG); */
+    background-color: var(--bg_hover);
 }
 
 img{
@@ -181,7 +210,8 @@ img{
     .mainContainer{
         width: 100vw;
         height: 100vh;
-        background-color: rgb(230, 230, 230);
+        /* background-color: rgb(230, 230, 230); */
+        background-color: var(--bg_mainBG);
         display: grid;
         grid-template-columns: auto auto 320px;
         grid-template-rows: 5% auto 63%;
@@ -198,7 +228,8 @@ img{
     .mainContainer{
         width: 100vw;
         height: 100vh;
-        background-color: rgb(230, 230, 230);
+        /* background-color: rgb(230, 230, 230); */
+        background-color: var(--bg_mainBG);
         display: grid;
         grid-template-columns: auto auto 320px;
         grid-template-rows: 5% auto 63%;
@@ -214,7 +245,8 @@ img{
     .mainContainer{
         width: 100vw;
         height: 100vh;
-        background-color: rgb(230, 230, 230);
+        /* background-color: rgb(230, 230, 230); */
+        background-color: var(--bg_mainBG);
         display: grid;
         grid-template-columns: 60% 40%;
         grid-template-rows: 5% auto 63%;
@@ -256,7 +288,8 @@ img{
     .mainContainer{
         width: 100vw;
         height: 100vh;
-        background-color: rgb(230, 230, 230);
+        /* background-color: rgb(230, 230, 230); */
+        background-color: var(--bg_mainBG);
         display: grid;
         grid-template-columns: 100%;
         grid-template-rows: 5% auto 63%;
@@ -282,4 +315,34 @@ img{
     .mainContainer{
         min-height: 410px;
     }
+}
+
+
+/* themes */
+.greenTheme{
+    --bg_mainBG : #BBD6B8;
+    --bg_math_btn_BG :  #94AF9F;
+    --digit_btn_BG : #aec2b6;
+    --bg_hover : #dbe4c6;
+    --border_radius : 1rem;
+    --font_family : monospace;
+}
+
+.blueTheme{
+    --bg_mainBG : #bcdefb;
+    --bg_math_btn_BG :   #4fb3f6;
+    --digit_btn_BG : rgba(111, 208, 249, 0.8980392157);
+    --bg_hover : #418ac6;
+    --border_radius : 2rem 0 2rem 0;
+    --font_family: sans-serif;
+}
+
+.myTheme{
+    --bg_mainBG : #fd68d0;
+    --bg_math_btn_BG :   #fdb3f6;
+    --digit_btn_BG : rgba(249, 111, 249, 0.898);
+    --bg_hover : #fd8ac6;
+    --border_radius : 5rem 5rem 0rem 0;
+    --scale : scale(1.2);
+    --font_family: cursive;
 }
