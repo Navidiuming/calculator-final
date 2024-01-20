@@ -137,6 +137,8 @@ sup { vertical-align: super; font-size: 0.6em; }
     font-size: 10px;
     padding: 10px 3vw;
     border-radius: var(--border_radius);
+    flex: 1;
+    text-align: center;
 
 }
 .memoryBtn:hover{
