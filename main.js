@@ -2,6 +2,7 @@ const displayResult = document.getElementById("displayResult");
 const btn_buttouns = document.querySelectorAll(".padBtn");
 const btn_themeChanger = document.getElementById("btn_themeChanger");
 const div_mainContainer = document.querySelector(".mainContainer");
+const div_littleHistoy = document.getElementById("littleHistory");
 let isOperationAdded = false;
 let isNumberAfterOperationAdded = false;
 let numberAfterOperation = "";
@@ -40,12 +41,14 @@ function clickOnBtnPad() {
           console.log("do nothing");
         } else {
           let result = displayResult.innerHTML + "/100";
+          div_littleHistoy.innerHTML = result;
           displayResult.innerHTML = eval(result);
         }
         console.log("%");
         break;
       case "clear":
         console.log("clear");
+        reset();
         break;
       case "delet":
         console.log("delet");
@@ -60,12 +63,14 @@ function clickOnBtnPad() {
           console.log("do nothing");
         } else if (isOperationAdded == false) {
           let result = "Math.sqrt(" + displayResult.innerHTML + ")";
+          div_littleHistoy.innerHTML = "sqr(" + displayResult.innerHTML + ")";
           displayResult.innerHTML = eval(result);
         } else if (isNumberAfterOperationAdded) {
           let index = displayResult.innerHTML.indexOf(currentOperationSign);
           let partOne = displayResult.innerHTML.slice(0, index);
           let partTwo = displayResult.innerHTML.slice(index + 1);
           let result = partOne + currentOperationSign + "Math.sqrt(" + partTwo + ")";
+          div_littleHistoy.innerHTML = partOne + currentOperationSign + "sqr(" + partTwo + ")"; 
           displayResult.innerHTML = eval(result);
         }
         break;
@@ -79,12 +84,14 @@ function clickOnBtnPad() {
           console.log("do nothing");
         } else if (isOperationAdded == false) {
           let result = "Math.pow(" + displayResult.innerHTML + ",2)";
+          div_littleHistoy.innerHTML = "pow(" + displayResult.innerHTML + ")";
           displayResult.innerHTML = eval(result);
         } else if (isNumberAfterOperationAdded) {
           let index = displayResult.innerHTML.indexOf(currentOperationSign);
           let partOne = displayResult.innerHTML.slice(0, index);
           let partTwo = displayResult.innerHTML.slice(index + 1);
           let result = partOne + currentOperationSign + "Math.pow(" + partTwo + ",2)";
+          div_littleHistoy.innerHTML = partOne + currentOperationSign + "pow(" + partTwo + ")";
           displayResult.innerHTML = eval(result);
         }
         break;
@@ -110,12 +117,14 @@ function clickOnBtnPad() {
           console.log("do nothing");
         } else if (isOperationAdded == false) {
           let result = "Math.pow(" + displayResult.innerHTML + ",3)";
+          div_littleHistoy.innerHTML = "cube(" + displayResult.innerHTML + ")";
           displayResult.innerHTML = eval(result);
         } else if (isNumberAfterOperationAdded) {
           let index = displayResult.innerHTML.indexOf(currentOperationSign);
           let partOne = displayResult.innerHTML.slice(0, index);
           let partTwo = displayResult.innerHTML.slice(index + 1);
           let result = partOne + currentOperationSign + "Math.pow(" + partTwo + ",3)";
+          div_littleHistoy.innerHTML = partOne + currentOperationSign + "cube(" + partTwo + ")";
           displayResult.innerHTML = eval(result);
         }
         break;
@@ -124,9 +133,42 @@ function clickOnBtnPad() {
         break;
       case "reverse":
         console.log("1/x");
+        if (isOperationAdded && isNumberAfterOperationAdded == false) {
+          console.log("do nothing");
+        } else if (isOperationAdded == false) {
+          let result = "1/" + displayResult.innerHTML;
+          div_littleHistoy.innerHTML = result;
+          displayResult.innerHTML = eval(result);
+        } else if (isNumberAfterOperationAdded) {
+          let index = displayResult.innerHTML.indexOf(currentOperationSign);
+          let partOne = displayResult.innerHTML.slice(0, index);
+          let partTwo = displayResult.innerHTML.slice(index + 1);
+          let result = partOne + currentOperationSign + "1/" + partTwo;
+          div_littleHistoy.innerHTML = result;
+          displayResult.innerHTML = eval(result);
+        }
         break;
       case "mark":
         console.log("-/+");
+        if (isOperationAdded && isNumberAfterOperationAdded == false) {
+          console.log("do nothing");
+        } else if (isOperationAdded == false) {
+          let result = displayResult.innerHTML;
+          displayResult.innerHTML = result[0] == "-" ? result.substring(1) : "-"+result;
+        } else if (isNumberAfterOperationAdded) {
+          let index = displayResult.innerHTML.indexOf(currentOperationSign);
+          let partOne = displayResult.innerHTML.slice(0, index);
+          let partTwo = displayResult.innerHTML.slice(index + 1);
+          if(result[0] == "-"){
+            partTwo = partTwo.substring(1);
+            let result = partOne + currentOperationSign + partTwo;
+            displayResult.innerHTML = eval(result);
+          }else{
+            partTwo = "(-" + partTwo + ")";
+            let result = partOne + currentOperationSign + partTwo;
+            displayResult.innerHTML = eval(result);
+          }
+        }
         break;
       case "equal":
         console.log("=");
@@ -140,21 +182,24 @@ function clickOnBtnPad() {
   }
 }
 function checkDecimal(checkCondition, displayResult, el) {
-  clickedBtn = el;
+  let clickedBtn = el;
   if (checkCondition == false) {
     let displayResultBeforeClick = displayResult.innerHTML;
     displayResultBeforeClick = displayResult.innerHTML == "0" && el != "." ? "" : displayResult.innerHTML;
     clickedBtn = displayResult.innerHTML.includes(".") && el == "." ? "" : el;
     displayResult.innerHTML = displayResultBeforeClick + clickedBtn;
   } else {
-    numberAfterOperation = numberAfterOperation.includes(".") && el == "." ? numberAfterOperation : numberAfterOperation + el;
     clickedBtn = numberAfterOperation.includes(".") && el == "." ? "" : el;
-    displayResult.innerHTML = displayResult.innerHTML + el;
+    displayResult.innerHTML = displayResult.innerHTML + clickedBtn;
+    numberAfterOperation = numberAfterOperation + clickedBtn;
+
+    console.log("clicked btn:" + clickedBtn);
   }
 }
 function mainOperatorCompute(operationSign, lastResult) {
   if (operationSign == "=") {
     if (isNumberAfterOperationAdded == true) {
+      div_littleHistoy.innerHTML = lastResult;
       let result = eval(lastResult);
       displayResult.innerHTML = result;
       isOperationAdded = false;
@@ -174,6 +219,7 @@ function mainOperatorCompute(operationSign, lastResult) {
       displayResult.innerHTML = lastResult.slice(0, -1) + operationSign;
     } else if (isOperationAdded && isNumberAfterOperationAdded) {
       currentOperationSign = operationSign;
+      div_littleHistoy.innerHTML = lastResult;
       let result = eval(lastResult);
       displayResult.innerHTML = result + operationSign;
       isOperationAdded = true;
@@ -183,37 +229,14 @@ function mainOperatorCompute(operationSign, lastResult) {
     isResultBtnPushed = false;
   }
 }
-
-function otheroperatorBtn(operationSign) {
-  switch (operationSign) {
-    case "%":
-      console.log("%");
-      break;
-    case "clear":
-      console.log("clear");
-      break;
-    case "delet":
-      console.log("delet");
-      break;
-    case "root":
-      console.log("root");
-      break;
-    case "power":
-      console.log("power");
-      break;
-    case "power3":
-      console.log("3");
-      break;
-    case "reverse":
-      console.log("1/x");
-      break;
-    case "mark":
-      console.log("-/+");
-      break;
-    default:
-      console.log("not found");
-      break;
-  }
+function reset() {
+  displayResult.innerHTML = "0";
+  isOperationAdded = false;
+  isNumberAfterOperationAdded = false;
+  numberAfterOperation = "";
+  currentOperationSign = "";
+  isResultBtnPushed = false;
+  div_littleHistoy.innerHTML = "";
 
 }
 // change theme

@@ -115,6 +115,20 @@ sup { vertical-align: super; font-size: 0.6em; }
     font-size: 40px;
     font-weight: bold;
     padding-right: 4%;
+    box-sizing: border-box;
+    
+}
+.display .mainDisplay{
+    /* border: solid; */
+    height: 70%;
+    box-sizing: border-box;
+}
+.display .littleHistory{
+    font-size: small;
+    color: gray;
+    height: 30%;
+    /* border: solid; */
+    box-sizing: border-box;
 }
 
 
