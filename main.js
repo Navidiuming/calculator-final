@@ -52,6 +52,16 @@ function clickOnBtnPad() {
         break;
       case "delet":
         console.log("delet");
+        let result = displayResult.innerHTML;
+        let lastChar = result.slice(-1);
+        let beforeLastChar = result.slice(-2,-1);
+        result = result.substring(0, result.length - 1);
+        displayResult.innerHTML = result;
+        if((lastChar == "+" || lastChar=="-" || lastChar == "*" || lastChar=="/") && (beforeLastChar != "-" || beforeLastChar != "+" || beforeLastChar != "*" || beforeLastChar != "/")){
+          isOperationAdded = false;
+        }else if((lastChar != "+" || lastChar!="-" || lastChar != "*" || lastChar!="/") && (beforeLastChar == "-" || beforeLastChar == "+" || beforeLastChar == "*" || beforeLastChar == "/")){
+          isNumberAfterOperationAdded = false;
+        }
         break;
       case "divide":
         console.log("/");
@@ -70,7 +80,7 @@ function clickOnBtnPad() {
           let partOne = displayResult.innerHTML.slice(0, index);
           let partTwo = displayResult.innerHTML.slice(index + 1);
           let result = partOne + currentOperationSign + "Math.sqrt(" + partTwo + ")";
-          div_littleHistoy.innerHTML = partOne + currentOperationSign + "sqr(" + partTwo + ")"; 
+          div_littleHistoy.innerHTML = partOne + currentOperationSign + "sqr(" + partTwo + ")";
           displayResult.innerHTML = eval(result);
         }
         break;
@@ -154,19 +164,19 @@ function clickOnBtnPad() {
           console.log("do nothing");
         } else if (isOperationAdded == false) {
           let result = displayResult.innerHTML;
-          displayResult.innerHTML = result[0] == "-" ? result.substring(1) : "-"+result;
+          displayResult.innerHTML = result[0] == "-" ? result.substring(1) : "-" + result;
         } else if (isNumberAfterOperationAdded) {
           let index = displayResult.innerHTML.indexOf(currentOperationSign);
           let partOne = displayResult.innerHTML.slice(0, index);
           let partTwo = displayResult.innerHTML.slice(index + 1);
-          if(result[0] == "-"){
+          if (partTwo[0] == "-") {
             partTwo = partTwo.substring(1);
             let result = partOne + currentOperationSign + partTwo;
-            displayResult.innerHTML = eval(result);
-          }else{
-            partTwo = "(-" + partTwo + ")";
+            displayResult.innerHTML = result;
+          } else {
+            partTwo = "-" + partTwo + "";
             let result = partOne + currentOperationSign + partTwo;
-            displayResult.innerHTML = eval(result);
+            displayResult.innerHTML = result;
           }
         }
         break;
