@@ -1,30 +1,57 @@
 const displayResult = document.getElementById("displayResult");
 const btn_buttouns = document.querySelectorAll(".padBtn");
+const btn_memeoryButtouns = document.querySelectorAll(".memoryBtn");
 const btn_themeChanger = document.getElementById("btn_themeChanger");
 const div_mainContainer = document.querySelector(".mainContainer");
 const div_littleHistoy = document.getElementById("littleHistory");
+const p_rightMenuItem = document.querySelectorAll(".historyAndMemoryBar *");
+const div_historyTabs = document.querySelectorAll(".historyResultBar div");
+const p_noHistoryP = document.getElementById("noHistoryP");
+const btn_deletHistoryBar = document.getElementById("deletHistoryBar");
 let isOperationAdded = false;
 let isNumberAfterOperationAdded = false;
 let numberAfterOperation = "";
 let currentOperationSign = "";
 let isResultBtnPushed = false;
+let numberInMemory = "0";
 for (let i = 0; i < btn_buttouns.length; i++) {
   btn_buttouns[i].addEventListener("click", clickOnBtnPad);
 }
 
+for (let i = 0; i < btn_memeoryButtouns.length; i++) {
+  btn_memeoryButtouns[i].addEventListener("click", clickOnMemoryBtn);
+}
+
+for (let i = 0; i < p_rightMenuItem.length; i++) {
+  p_rightMenuItem[i].addEventListener("click", changeRitghtMenu);
+}
+
+function changeRitghtMenu() {
+  for (let i = 0; i < p_rightMenuItem.length; i++) {
+    p_rightMenuItem[i].classList.remove("underLine");
+  }
+  this.classList.add("underLine");
+  console.log(this.innerHTML);
+  if (this.innerHTML == "History") {
+    div_historyTabs[0].classList.add("flex");
+    div_historyTabs[0].classList.remove("hidden");
+    div_historyTabs[1].classList.add("hidden");
+    div_historyTabs[1].classList.remove("flex");
+    console.log(div_historyTabs[0]);
+  } else {
+    div_historyTabs[1].classList.add("flex");
+    div_historyTabs[1].classList.remove("hidden");
+    div_historyTabs[0].classList.add("hidden");
+    div_historyTabs[0].classList.remove("flex");
+    console.log(div_historyTabs[1]);
+  }
+}
 function clickOnBtnPad() {
-  console.log(this.classList.contains("digitBtn"));
   if (this.classList.contains("digitBtn")) {
     if (isResultBtnPushed == true) {
       displayResult.innerHTML = "0";
       isResultBtnPushed = false;
     }
-    // let clickedBtn = this.innerHTML;
-
-    // let displayResultBeforeClick = displayResult.innerHTML;
-    // displayResultBeforeClick = displayResult.innerHTML == "0" && this.innerHTML != "." ? "" : displayResult.innerHTML;
-    // clickedBtn = displayResult.innerHTML.includes(".") && this.innerHTML == "." ? "" : this.innerHTML;
-    // displayResult.innerHTML = displayResultBeforeClick + clickedBtn;
     if (isOperationAdded == true) {
       isNumberAfterOperationAdded = true;
     }
@@ -34,7 +61,6 @@ function clickOnBtnPad() {
 
   if (this.classList.contains("mathBtn")) {
     let lastResult = displayResult.innerHTML;
-    console.log(lastResult);
     switch (this.getAttribute("id")) {
       case "divideRemaining":
         if (isOperationAdded && isNumberAfterOperationAdded == false) {
@@ -42,71 +68,88 @@ function clickOnBtnPad() {
         } else {
           let result = displayResult.innerHTML + "/100";
           div_littleHistoy.innerHTML = result;
-          displayResult.innerHTML = eval(result);
+          let finalResult = eval(result);
+          finalResult = parseFloat(finalResult.toFixed(5));
+          displayResult.innerHTML = finalResult;
+
+          addHistoryResult(result,finalResult,0);
         }
-        console.log("%");
         break;
       case "clear":
-        console.log("clear");
         reset();
         break;
       case "delet":
-        console.log("delet");
         let result = displayResult.innerHTML;
+
         let lastChar = result.slice(-1);
-        let beforeLastChar = result.slice(-2,-1);
-        result = result.substring(0, result.length - 1);
-        displayResult.innerHTML = result;
-        if((lastChar == "+" || lastChar=="-" || lastChar == "*" || lastChar=="/") && (beforeLastChar != "-" || beforeLastChar != "+" || beforeLastChar != "*" || beforeLastChar != "/")){
-          isOperationAdded = false;
-        }else if((lastChar != "+" || lastChar!="-" || lastChar != "*" || lastChar!="/") && (beforeLastChar == "-" || beforeLastChar == "+" || beforeLastChar == "*" || beforeLastChar == "/")){
-          isNumberAfterOperationAdded = false;
+        let beforeLastChar = result.slice(-2, -1);
+        if (beforeLastChar == "") {
+          displayResult.innerHTML = "0";
+        }
+        else {
+          result = result.substring(0, result.length - 1);
+          displayResult.innerHTML = result;
+          if ((lastChar == "+" || lastChar == "-" || lastChar == "*" || lastChar == "/") && (beforeLastChar != "-" || beforeLastChar != "+" || beforeLastChar != "*" || beforeLastChar != "/")) {
+            isOperationAdded = false;
+          } else if ((lastChar != "+" || lastChar != "-" || lastChar != "*" || lastChar != "/") && (beforeLastChar == "-" || beforeLastChar == "+" || beforeLastChar == "*" || beforeLastChar == "/")) {
+            isNumberAfterOperationAdded = false;
+          }
         }
         break;
       case "divide":
-        console.log("/");
         mainOperatorCompute("/", lastResult);
         break;
       case "root":
-        console.log("root");
         if (isOperationAdded && isNumberAfterOperationAdded == false) {
           console.log("do nothing");
         } else if (isOperationAdded == false) {
           let result = "Math.sqrt(" + displayResult.innerHTML + ")";
           div_littleHistoy.innerHTML = "sqr(" + displayResult.innerHTML + ")";
-          displayResult.innerHTML = eval(result);
+          let finalResult = eval(result);
+          finalResult = parseFloat(finalResult.toFixed(5));
+          displayResult.innerHTML = finalResult;
+
+          addHistoryResult(div_littleHistoy.innerHTML,finalResult,0)
         } else if (isNumberAfterOperationAdded) {
           let index = displayResult.innerHTML.indexOf(currentOperationSign);
           let partOne = displayResult.innerHTML.slice(0, index);
           let partTwo = displayResult.innerHTML.slice(index + 1);
           let result = partOne + currentOperationSign + "Math.sqrt(" + partTwo + ")";
           div_littleHistoy.innerHTML = partOne + currentOperationSign + "sqr(" + partTwo + ")";
-          displayResult.innerHTML = eval(result);
+          let finalResult = eval(result);
+          finalResult = parseFloat(finalResult.toFixed(5));
+          displayResult.innerHTML = finalResult;
+
+          addHistoryResult(div_littleHistoy.innerHTML,finalResult , 0);
         }
         break;
       case "multiply":
-        console.log("*");
         mainOperatorCompute("*", lastResult);
         break;
       case "power":
-        console.log("power");
         if (isOperationAdded && isNumberAfterOperationAdded == false) {
           console.log("do nothing");
         } else if (isOperationAdded == false) {
           let result = "Math.pow(" + displayResult.innerHTML + ",2)";
           div_littleHistoy.innerHTML = "pow(" + displayResult.innerHTML + ")";
-          displayResult.innerHTML = eval(result);
+          let finalResult = eval(result);
+          finalResult = parseFloat(finalResult.toFixed(5));
+          displayResult.innerHTML = finalResult;
+
+          addHistoryResult(div_littleHistoy.innerHTML,finalResult,0);
         } else if (isNumberAfterOperationAdded) {
           let index = displayResult.innerHTML.indexOf(currentOperationSign);
           let partOne = displayResult.innerHTML.slice(0, index);
           let partTwo = displayResult.innerHTML.slice(index + 1);
           let result = partOne + currentOperationSign + "Math.pow(" + partTwo + ",2)";
           div_littleHistoy.innerHTML = partOne + currentOperationSign + "pow(" + partTwo + ")";
-          displayResult.innerHTML = eval(result);
+          let finalResult = eval(result);
+          finalResult = parseFloat(finalResult.toFixed(5));
+          displayResult.innerHTML = finalResult;
+          addHistoryResult(div_littleHistoy.innerHTML,finalResult,0);
         }
         break;
       case "minus":
-        console.log("-");
         // if(isOperationAdded == false && isNumberAfterOperationAdded == false ){
         //   displayResult.innerHTML = lastResult + " -";
         //   isOperationAdded = true;
@@ -122,44 +165,58 @@ function clickOnBtnPad() {
 
         break;
       case "power3":
-        console.log("3");
         if (isOperationAdded && isNumberAfterOperationAdded == false) {
           console.log("do nothing");
         } else if (isOperationAdded == false) {
           let result = "Math.pow(" + displayResult.innerHTML + ",3)";
           div_littleHistoy.innerHTML = "cube(" + displayResult.innerHTML + ")";
-          displayResult.innerHTML = eval(result);
+          let finalResult = eval(result);
+          finalResult = parseFloat(finalResult.toFixed(5));
+          displayResult.innerHTML = finalResult;
+
+          addHistoryResult(div_littleHistoy.innerHTML,finalResult,0);
         } else if (isNumberAfterOperationAdded) {
           let index = displayResult.innerHTML.indexOf(currentOperationSign);
           let partOne = displayResult.innerHTML.slice(0, index);
           let partTwo = displayResult.innerHTML.slice(index + 1);
           let result = partOne + currentOperationSign + "Math.pow(" + partTwo + ",3)";
           div_littleHistoy.innerHTML = partOne + currentOperationSign + "cube(" + partTwo + ")";
-          displayResult.innerHTML = eval(result);
+          let finalResult = eval(result);
+          finalResult = parseFloat(finalResult.toFixed(5));
+          displayResult.innerHTML = finalResult;
+
+          addHistoryResult(div_littleHistoy.innerHTML,finalResult,0);
+          
         }
         break;
       case "plus":
         mainOperatorCompute("+", lastResult);
         break;
       case "reverse":
-        console.log("1/x");
         if (isOperationAdded && isNumberAfterOperationAdded == false) {
           console.log("do nothing");
         } else if (isOperationAdded == false) {
           let result = "1/" + displayResult.innerHTML;
           div_littleHistoy.innerHTML = result;
-          displayResult.innerHTML = eval(result);
+          let finalResult = eval(result);
+          finalResult = parseFloat(finalResult.toFixed(5));
+          displayResult.innerHTML = finalResult;
+
+          addHistoryResult(div_littleHistoy.innerHTML,finalResult,0);
         } else if (isNumberAfterOperationAdded) {
           let index = displayResult.innerHTML.indexOf(currentOperationSign);
           let partOne = displayResult.innerHTML.slice(0, index);
           let partTwo = displayResult.innerHTML.slice(index + 1);
           let result = partOne + currentOperationSign + "1/" + partTwo;
           div_littleHistoy.innerHTML = result;
-          displayResult.innerHTML = eval(result);
+          let finalResult = eval(result);
+          finalResult = parseFloat(finalResult.toFixed(5));
+          displayResult.innerHTML = finalResult;
+
+          addHistoryResult(div_littleHistoy.innerHTML,finalResult,0);
         }
         break;
       case "mark":
-        console.log("-/+");
         if (isOperationAdded && isNumberAfterOperationAdded == false) {
           console.log("do nothing");
         } else if (isOperationAdded == false) {
@@ -181,7 +238,6 @@ function clickOnBtnPad() {
         }
         break;
       case "equal":
-        console.log("=");
         mainOperatorCompute("=", lastResult);
         break;
       default:
@@ -190,6 +246,71 @@ function clickOnBtnPad() {
     }
 
   }
+}
+function clickOnMemoryBtn() {
+  currenBtn = this.innerHTML;
+  switch (currenBtn) {
+    case "M+":
+      if (isOperationAdded == false) {
+        numberInMemory = eval(numberInMemory + "+" + displayResult.innerHTML);
+        addHistoryResult("M" , numberInMemory , 1);
+      } else if (numberAfterOperation) {
+        let index = displayResult.innerHTML.indexOf(currentOperationSign);
+        let partOne = displayResult.innerHTML.slice(0, index);
+        let partTwo = displayResult.innerHTML.slice(index + 1);
+        numberInMemory = eval(numberInMemory + "+" + partTwo);
+        addHistoryResult("M", numberInMemory,1);
+      }
+      break;
+
+    case "M-":
+      if (isOperationAdded == false) {
+        numberInMemory = eval(numberInMemory - displayResult.innerHTML);
+        addHistoryResult("M" , numberInMemory , 1);
+      } else if (numberAfterOperation) {
+        let index = displayResult.innerHTML.indexOf(currentOperationSign);
+        let partOne = displayResult.innerHTML.slice(0, index);
+        let partTwo = displayResult.innerHTML.slice(index + 1);
+        numberInMemory = eval(numberInMemory - partTwo);
+        addHistoryResult("M" , numberInMemory , 1);
+      }
+      break;
+
+    case "MC":
+      numberInMemory = "0";
+      addHistoryResult("M" , numberInMemory , 1);
+      console.log(currenBtn);
+      break;
+
+    case "MR":
+      console.log(isOperationAdded == false && numberInMemory != "0");
+      if (isOperationAdded && numberInMemory != "0") {
+        let index = displayResult.innerHTML.indexOf(currentOperationSign);
+        let partOne = displayResult.innerHTML.slice(0, index);
+        let partTwo = displayResult.innerHTML.slice(index + 1);
+        displayResult.innerHTML = partOne + currentOperationSign + numberInMemory;
+        isNumberAfterOperationAdded = true;
+      } else if (isOperationAdded == false && numberInMemory != "0") {
+        displayResult.innerHTML = numberInMemory;
+      }
+      break;
+
+    case "MS":
+      if (isNumberAfterOperationAdded) {
+        numberInMemory = numberAfterOperation;
+        addHistoryResult("M" , numberInMemory , 1);
+      } else if (isOperationAdded == false) {
+        numberInMemory = displayResult.innerHTML;
+        addHistoryResult("M" , numberInMemory , 1);
+      } else if (isNumberAfterOperationAdded == false && isOperationAdded == true) {
+        numberInMemory = displayResult.innerHTML.slice(0, displayResult.innerHTML.length - 1);
+        addHistoryResult("M" , numberInMemory , 1);
+      }
+      break;
+
+  }
+  console.log(numberInMemory);
+
 }
 function checkDecimal(checkCondition, displayResult, el) {
   let clickedBtn = el;
@@ -203,7 +324,6 @@ function checkDecimal(checkCondition, displayResult, el) {
     displayResult.innerHTML = displayResult.innerHTML + clickedBtn;
     numberAfterOperation = numberAfterOperation + clickedBtn;
 
-    console.log("clicked btn:" + clickedBtn);
   }
 }
 function mainOperatorCompute(operationSign, lastResult) {
@@ -211,12 +331,14 @@ function mainOperatorCompute(operationSign, lastResult) {
     if (isNumberAfterOperationAdded == true) {
       div_littleHistoy.innerHTML = lastResult;
       let result = eval(lastResult);
+      result = parseFloat(result.toFixed(5));
       displayResult.innerHTML = result;
       isOperationAdded = false;
       isNumberAfterOperationAdded = false;
       numberAfterOperation = "";
       isResultBtnPushed = true;
       currentOperationSign = "";
+      addHistoryResult(lastResult,result,0);
     }
 
   } else {
@@ -231,10 +353,13 @@ function mainOperatorCompute(operationSign, lastResult) {
       currentOperationSign = operationSign;
       div_littleHistoy.innerHTML = lastResult;
       let result = eval(lastResult);
+      result = parseFloat(result.toFixed(5));
       displayResult.innerHTML = result + operationSign;
       isOperationAdded = true;
       isNumberAfterOperationAdded = false;
       numberAfterOperation = "";
+
+      addHistoryResult(lastResult,result,0);
     }
     isResultBtnPushed = false;
   }
@@ -249,6 +374,27 @@ function reset() {
   div_littleHistoy.innerHTML = "";
 
 }
+
+function addHistoryResult(lastResult, result , i) {
+  let historyItem = document.createElement("p");
+  historyItem.innerHTML = lastResult + " = " + result;
+  div_historyTabs[i].appendChild(historyItem);
+
+  if( p_noHistoryP.style.display != "none" && div_historyTabs[0].children.length > 1){
+    p_noHistoryP.style.display = "none";
+  }
+  
+}
+
+btn_deletHistoryBar.addEventListener("click",()=>{
+  p_noHistoryP.style.display = "block";
+  while (div_historyTabs[0].children.length > 1) {
+    div_historyTabs[0].removeChild(div_historyTabs[0].lastChild);
+  }
+  while (div_historyTabs[1].children.length > 1) {
+    div_historyTabs[1].removeChild(div_historyTabs[1].lastChild);
+  }
+})
 // change theme
 const themes = {
   1: "greenTheme",
@@ -258,8 +404,6 @@ const themes = {
 
 let themeCounter = 1;
 function changeTheme() {
-  console.log(themeCounter);
-  console.log(themes[themeCounter]);
   themeCounter++;
   if (themeCounter > 4) {
     themeCounter = 1;
